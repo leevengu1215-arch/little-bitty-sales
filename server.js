@@ -44,15 +44,16 @@ const server = http.createServer(async (req, res) => {
     }
     if (url.pathname === '/api/state' && req.method === 'GET') return json(res, 200, db);
     if (url.pathname === '/api/checkout' && req.method === 'POST') {
-      const b = await body(req), clerk = String(b.clerk || '').trim().slice(0,20), discount = Number(b.discount), note = String(b.note || '').trim().slice(0,200);
+      const b = await body(req), clerk = String(b.clerk || '').trim().slice(0,20), rate = Number(b.rate), coupon = Number(b.coupon), note = String(b.note || '').trim().slice(0,200);
       if (!clerk) return json(res, 400, {error:'请先填写售货员名字'});
       if (!Array.isArray(b.items) || !b.items.length || b.items.length > 50) return json(res, 400, {error:'购物车内容无效'});
       const items = b.items.map(x => ({product:db.products.find(p=>p.id===x.productId), quantity:Number.parseInt(x.quantity,10), price:Number(x.price)}));
       if (items.some(x=>!x.product||!Number.isInteger(x.quantity)||x.quantity<1||x.quantity>99||!Number.isFinite(x.price)||x.price<=0||x.price>100000)) return json(res, 400, {error:'购物车中有无效商品、数量或价格'});
       const total = items.reduce((n,x)=>n+x.price*x.quantity,0);
-      if (![0,5,10].includes(discount) || discount > total) return json(res, 400, {error:'优惠金额无效'});
+      if (!Number.isFinite(rate) || rate <= 0 || rate > 10) return json(res, 400, {error:'折扣无效'});
+      if (!Number.isFinite(coupon) || coupon < 0 || coupon > total * rate / 10) return json(res, 400, {error:'优惠券金额无效'});
       const checkoutId = crypto.randomUUID(), createdAt = new Date().toISOString();
-      const sales = items.map((x,i)=>({id:crypto.randomUUID(),checkoutId,productId:x.product.id,clerk,price:x.price,quantity:x.quantity,discount:i===0?discount:0,note:i===0?note:'',createdAt,voidedAt:null}));
+      const sales = items.map((x,i)=>({id:crypto.randomUUID(),checkoutId,productId:x.product.id,clerk,price:x.price,quantity:x.quantity,rate,coupon:i===0?coupon:0,note:i===0?note:'',createdAt,voidedAt:null}));
       db.sales.unshift(...sales); save(); broadcast(); return json(res, 201, sales);
     }
     if (url.pathname === '/api/sales' && req.method === 'POST') {
