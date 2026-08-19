@@ -22,6 +22,8 @@ add('帽子',{'藏青蓝格':'hat-navy.webp','雾蓝色格子':'hat-mist.webp','
 add('窝垫',{'蓝色':'garden-bed-blue.webp','绿色':'garden-bed-green.webp'},['蓝色','绿色'],['F'],[159],[159]);
 add('凉感三角巾',{'紫色':'pcm28-purple.webp','蓝色':'pcm28-blue.webp','黄色':'pcm28-yellow.webp'},['紫色','蓝色','黄色'],['M','L'],[129,129],[129,129]);
 add('降温围脖',{'蓝色':'pcm18-blue.webp','黄色':'pcm18-yellow.webp'},['蓝色','黄色'],['F'],[129],[129]);
+add('手机支架',{'小马':'phone-stand-horse.jpg','跑猫':'phone-stand-cat.jpg','跑狗':'phone-stand-dog.jpg'},['小马','跑猫','跑狗'],['均码'],[20],[20]);
+add('尼龙包包',{'蓝色':'nylon-bag.jpg'},['蓝色'],['均码'],[30],[30]);
 
 function load() {
   try { return JSON.parse(fs.readFileSync(DB, 'utf8')); }
@@ -76,7 +78,7 @@ const server = http.createServer(async (req, res) => {
     const rel = url.pathname === '/' ? 'index.html' : url.pathname.slice(1);
     const file = path.normalize(path.join(PUBLIC, rel));
     if (!file.startsWith(PUBLIC) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404); return res.end('Not found'); }
-    const ext = path.extname(file), type = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8'}[ext] || 'application/octet-stream';
+    const ext = path.extname(file), type = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.jpg':'image/jpeg'}[ext] || 'application/octet-stream';
     res.writeHead(200, {'Content-Type':type}); fs.createReadStream(file).pipe(res);
   } catch (e) { json(res, 400, {error:e.message || '请求失败'}); }
 });
