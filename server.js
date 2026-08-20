@@ -11,7 +11,7 @@ const PUBLIC = path.join(__dirname, 'public');
 
 const products = [];
 const add = (name, images, colors, sizes, prices, originalPrices, hidden=false) => colors.forEach(color => sizes.forEach((size, i) => products.push({ id: `p${products.length + 1}`, name, image: images[color], color, size, price: prices[i], originalPrice: originalPrices[i], hidden })));
-add('随行垫',{'紫色':'mat-purple.webp','绿色':'mat-green.webp','黄色':'mat-yellow.webp','粉色':'mat-pink.webp'},['紫色','绿色','黄色','粉色'],['S','M','L'],[138,148,158],[178,188,198],true);
+add('随行垫',{'紫色':'mat-purple.webp','绿色':'mat-green.webp','黄色':'mat-yellow.webp','粉色':'mat-pink.webp'},['紫色','绿色','黄色','粉色'],['S','M','L'],[138,148,158],[178,188,198]);
 add('单色三角巾',{'藏青蓝格子':'triangle-single-navy.webp','雾蓝色格子':'triangle-single-mist.webp','杏粉条纹':'triangle-single-pink.webp','卡其蓝格子':'triangle-single-khaki.webp'},['藏青蓝格子','雾蓝色格子','杏粉条纹','卡其蓝格子'],['S','M','L'],[33,35,37],[42,45,48]);
 add('双色三角巾',{'可可咖':'triangle-duo-coffee.webp','红苹果':'triangle-duo-red.webp'},['可可咖','红苹果'],['S','M','L'],[43,45,48],[55,58,61]);
 add('单色脖套',{'黄色':'snood-summer-yellow.webp','绿色':'snood-summer-green.webp','粉色':'snood-summer-pink.webp','白色':'snood-summer-white.webp'},['黄色','绿色','粉色','白色'],['S21','M25','L28'],[42,46,50],[59,59,59]);
