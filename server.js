@@ -10,18 +10,18 @@ const DB = path.join(DATA_DIR, 'data.json');
 const PUBLIC = path.join(__dirname, 'public');
 
 const products = [];
-const add = (name, images, colors, sizes, prices, originalPrices, hidden=false) => colors.forEach(color => sizes.forEach((size, i) => products.push({ id: `p${products.length + 1}`, name, image: images[color], color, size, price: prices[i], originalPrice: originalPrices[i], hidden })));
-add('随行垫',{'紫色':'mat-purple.webp','绿色':'mat-green.webp','黄色':'mat-yellow.webp','粉色':'mat-pink.webp'},['紫色','绿色','黄色','粉色'],['S','M','L'],[138,148,158],[178,188,198]);
-add('单色三角巾',{'藏青蓝格子':'triangle-single-navy.webp','雾蓝色格子':'triangle-single-mist.webp','杏粉条纹':'triangle-single-pink.webp','卡其蓝格子':'triangle-single-khaki.webp'},['藏青蓝格子','雾蓝色格子','杏粉条纹','卡其蓝格子'],['S','M','L'],[33,35,37],[42,45,48]);
-add('双色三角巾',{'可可咖':'triangle-duo-coffee.webp','红苹果':'triangle-duo-red.webp'},['可可咖','红苹果'],['S','M','L'],[43,45,48],[55,58,61]);
-add('单色脖套',{'黄色':'snood-summer-yellow.webp','绿色':'snood-summer-green.webp','粉色':'snood-summer-pink.webp','白色':'snood-summer-white.webp'},['黄色','绿色','粉色','白色'],['S21','M25','L28'],[42,46,50],[59,59,59]);
-add('双色脖套',{'可可咖':'snood-duo-coffee.webp','红苹果':'snood-duo-red.webp'},['可可咖','红苹果'],['S21','M25','L28'],[50,56,62],[69,69,69]);
-add('小马抱枕',{'棕色':'horse-pillow-brown.webp'},['棕色'],['均码'],[128],[168]);
-add('围巾',{'红色':'scarf-red.webp','蓝色':'scarf-blue.webp','咖色':'scarf-coffee.webp'},['红色','蓝色','咖色'],['XS','S','M','L'],[50,53,56,58],[65,68,72,75]);
-add('帽子',{'藏青蓝格':'hat-navy.webp','雾蓝色格子':'hat-mist.webp','杏粉条纹':'hat-pink.webp','卡其蓝格子':'hat-khaki.webp'},['藏青蓝格','雾蓝色格子','杏粉条纹','卡其蓝格子'],['XXS','XS','S','M','L'],[50,53,55,58,60],[65,68,71,75,78]);
-add('窝垫',{'蓝色':'garden-bed-blue.webp','绿色':'garden-bed-green.webp'},['蓝色','绿色'],['F'],[159],[159]);
-add('凉感三角巾',{'紫色':'pcm28-purple.webp','蓝色':'pcm28-blue.webp','黄色':'pcm28-yellow.webp'},['紫色','蓝色','黄色'],['M','L'],[129,129],[129,129]);
-add('降温围脖',{'蓝色':'pcm18-blue.webp','黄色':'pcm18-yellow.webp'},['蓝色','黄色'],['F'],[129],[129]);
+const add = (name, images, colors, sizes, prices, originalPrices, wholesalePrices=[]) => colors.forEach(color => sizes.forEach((size, i) => products.push({ id: `p${products.length + 1}`, name, image: images[color], color, size, price: prices[i], originalPrice: originalPrices[i], wholesalePrice: wholesalePrices[i] ?? null, hidden:false })));
+add('随行垫',{'紫色':'mat-purple.webp','绿色':'mat-green.webp','黄色':'mat-yellow.webp','粉色':'mat-pink.webp'},['紫色','绿色','黄色','粉色'],['S','M','L'],[138,148,158],[178,188,198],[106.8,112.8,118.8]);
+add('单色三角巾',{'藏青蓝格子':'triangle-single-navy.webp','雾蓝色格子':'triangle-single-mist.webp','杏粉条纹':'triangle-single-pink.webp','卡其蓝格子':'triangle-single-khaki.webp'},['藏青蓝格子','雾蓝色格子','杏粉条纹','卡其蓝格子'],['S','M','L'],[33,35,37],[42,45,48],[25.2,27,28.8]);
+add('双色三角巾',{'可可咖':'triangle-duo-coffee.webp','红苹果':'triangle-duo-red.webp'},['可可咖','红苹果'],['S','M','L'],[43,45,48],[55,58,61],[33,34.8,36.6]);
+add('单色脖套',{'黄色':'snood-summer-yellow.webp','绿色':'snood-summer-green.webp','粉色':'snood-summer-pink.webp','白色':'snood-summer-white.webp'},['黄色','绿色','粉色','白色'],['S21','M25','L28'],[42,46,50],[59,59,59],[35.4,35.4,35.4]);
+add('双色脖套',{'可可咖':'snood-duo-coffee.webp','红苹果':'snood-duo-red.webp'},['可可咖','红苹果'],['S21','M25','L28'],[50,56,62],[69,69,69],[41.4,41.4,41.4]);
+add('小马抱枕',{'棕色':'horse-pillow-brown.webp'},['棕色'],['均码'],[128],[168],[100.8]);
+add('围巾',{'红色':'scarf-red.webp','蓝色':'scarf-blue.webp','咖色':'scarf-coffee.webp'},['红色','蓝色','咖色'],['XS','S','M','L'],[50,53,56,58],[65,68,72,75],[39,40.8,43.2,45]);
+add('帽子',{'藏青蓝格':'hat-navy.webp','雾蓝色格子':'hat-mist.webp','杏粉条纹':'hat-pink.webp','卡其蓝格子':'hat-khaki.webp'},['藏青蓝格','雾蓝色格子','杏粉条纹','卡其蓝格子'],['XXS','XS','S','M','L'],[50,53,55,58,60],[65,68,71,75,78],[39,40.8,42.6,45,46.8]);
+add('窝垫',{'蓝色':'garden-bed-blue.webp','绿色':'garden-bed-green.webp'},['蓝色','绿色'],['F'],[159],[159],[95.4]);
+add('凉感三角巾',{'紫色':'pcm28-purple.webp','蓝色':'pcm28-blue.webp','黄色':'pcm28-yellow.webp'},['紫色','蓝色','黄色'],['M','L'],[129,129],[129,129],[77.4,77.4]);
+add('降温围脖',{'蓝色':'pcm18-blue.webp','黄色':'pcm18-yellow.webp'},['蓝色','黄色'],['F'],[129],[129],[77.4]);
 add('手机支架',{'小马':'phone-stand-horse.jpg','跑猫':'phone-stand-cat.jpg','跑狗':'phone-stand-dog.jpg'},['小马','跑猫','跑狗'],['均码'],[20],[20]);
 add('尼龙包包',{'蓝色':'nylon-bag.jpg'},['蓝色'],['均码'],[30],[30]);
 
@@ -49,13 +49,15 @@ const server = http.createServer(async (req, res) => {
       const b = await body(req), clerk = String(b.clerk || '').trim().slice(0,20), rate = Number(b.rate), coupon = Number(b.coupon), note = String(b.note || '').trim().slice(0,200);
       if (!clerk) return json(res, 400, {error:'请先填写售货员名字'});
       if (!Array.isArray(b.items) || !b.items.length || b.items.length > 50) return json(res, 400, {error:'购物车内容无效'});
-      const items = b.items.map(x => ({product:db.products.find(p=>p.id===x.productId), quantity:Number.parseInt(x.quantity,10), price:Number(x.price)}));
+      const items = b.items.map(x => ({product:db.products.find(p=>p.id===x.productId), quantity:Number.parseInt(x.quantity,10), price:Number(x.price), priceMode:['standard','wholesale','other'].includes(x.priceMode)?x.priceMode:'other'}));
       if (items.some(x=>!x.product||!Number.isInteger(x.quantity)||x.quantity<1||x.quantity>99||!Number.isFinite(x.price)||x.price<=0||x.price>100000)) return json(res, 400, {error:'购物车中有无效商品、数量或价格'});
       const total = items.reduce((n,x)=>n+x.price*x.quantity,0);
+      const orderQuantity = items.reduce((n,x)=>n+x.quantity,0);
+      if (items.some(x=>x.priceMode==='wholesale'&&(orderQuantity<10||x.product.wholesalePrice==null||Math.abs(x.price-x.product.wholesalePrice)>0.001))) return json(res, 400, {error:'6折拿货价仅适用于10件以上订单'});
       if (!Number.isFinite(rate) || rate <= 0 || rate > 10) return json(res, 400, {error:'折扣无效'});
       if (!Number.isFinite(coupon) || coupon < 0 || coupon > total * rate / 10) return json(res, 400, {error:'优惠券金额无效'});
       const checkoutId = crypto.randomUUID(), createdAt = new Date().toISOString();
-      const sales = items.map((x,i)=>({id:crypto.randomUUID(),checkoutId,productId:x.product.id,clerk,price:x.price,quantity:x.quantity,rate,coupon:i===0?coupon:0,note:i===0?note:'',createdAt,voidedAt:null}));
+      const sales = items.map((x,i)=>({id:crypto.randomUUID(),checkoutId,productId:x.product.id,clerk,price:x.price,priceMode:x.priceMode,quantity:x.quantity,rate,coupon:i===0?coupon:0,note:i===0?note:'',createdAt,voidedAt:null}));
       db.sales.unshift(...sales); save(); broadcast(); return json(res, 201, sales);
     }
     if (url.pathname === '/api/sales' && req.method === 'POST') {
