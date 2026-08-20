@@ -52,8 +52,7 @@ const server = http.createServer(async (req, res) => {
       const items = b.items.map(x => ({product:db.products.find(p=>p.id===x.productId), quantity:Number.parseInt(x.quantity,10), price:Number(x.price), priceMode:['standard','wholesale','other'].includes(x.priceMode)?x.priceMode:'other'}));
       if (items.some(x=>!x.product||!Number.isInteger(x.quantity)||x.quantity<1||x.quantity>99||!Number.isFinite(x.price)||x.price<=0||x.price>100000)) return json(res, 400, {error:'购物车中有无效商品、数量或价格'});
       const total = items.reduce((n,x)=>n+x.price*x.quantity,0);
-      const orderQuantity = items.reduce((n,x)=>n+x.quantity,0);
-      if (items.some(x=>x.priceMode==='wholesale'&&(orderQuantity<10||x.product.wholesalePrice==null||Math.abs(x.price-x.product.wholesalePrice)>0.001))) return json(res, 400, {error:'6折拿货价仅适用于10件以上订单'});
+      if (items.some(x=>x.priceMode==='wholesale'&&(x.product.wholesalePrice==null||Math.abs(x.price-x.product.wholesalePrice)>0.001))) return json(res, 400, {error:'6折拿货价无效'});
       if (!Number.isFinite(rate) || rate <= 0 || rate > 10) return json(res, 400, {error:'折扣无效'});
       if (!Number.isFinite(coupon) || coupon < 0 || coupon > total * rate / 10) return json(res, 400, {error:'优惠券金额无效'});
       const checkoutId = crypto.randomUUID(), createdAt = new Date().toISOString();
